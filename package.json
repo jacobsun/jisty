@@ -1,0 +1,18 @@
+{
+  "name": "lispy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "description": "Lisp interpreter",
+  "author": "Jacob <jacob.sun.meta@gmail.com>",
+  "bin": {
+    "repl": "repl.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0"
+  },
+  "scripts": {
+    "test": "mocha test/**/*.js"
+  }
+}

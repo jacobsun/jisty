@@ -1,0 +1,133 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jisty</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #222;
+            padding: 10px;
+        }
+        .input-wrapper {
+            overflow: hidden;
+        }
+        .input-wrapper pre {
+            float:left;
+            width: 100%;
+            margin-right: -50px;
+            margin-bottom: 20px;
+        }
+        .input-wrapper code {
+            margin-right: 50px;
+        }
+        code {
+            display: block;
+            padding: 10px;
+            background: #444;
+            color: #FFF;
+            height: 35px;
+            overflow: hidden;
+        }
+        button {
+            float:left;
+            font-size: 16px;
+            display: block;
+            height: 35px;
+            width: 50px;
+            cursor: pointer;
+        }
+        .example {
+            margin: 30px 0 0 0;
+            background: #444;
+            color: #FFF;
+            padding: 10px;
+        }
+
+        .example code {
+            height:auto;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            color: #666;
+            text-align: center;
+            font-size: 12px;
+            padding: 10px;
+        }
+        footer a {
+            color: #666;
+        }
+        [data-error="1"] {
+            border: 1px solid red;
+        }
+    </style>
+    <script src="./index.js"></script>
+</head>
+
+<body>
+    <main>
+        <div class="input-wrapper">
+            <pre><code contenteditable="true" class="input">(+ 2 2)</code></pre>
+            <button class="btn">run</button>
+        </div>
+            <pre><code class="output">></code></pre>
+        <div class="example">
+            Examples:
+            <pre><code>(define circle-area (lambda (r) (* pi (* r r)))) ↵
+(circle-area 3) ↵</code></pre>
+            </code>
+        </div>
+    </main>
+    <footer>
+        <p><a href="https://github.com/jacobsun/jisty">Repo</a></p>
+    </footer>
+
+    <script>
+        const btn = document.querySelector('.btn')
+        const input = document.querySelector('.input')
+        const output = document.querySelector('.output')
+        const exec = () => {
+            const code = input.textContent.trim()
+            if (!code) {
+                output.textContent = `> `
+                output.dataset.error = 0
+                return
+            }
+            let ret
+            try {
+                ret = run(code)
+            } catch (error) {
+                output.textContent = `Error: ${error.message}.`
+                output.dataset.error = 1
+                return
+            }
+            output.textContent = `> ${ret}`
+            output.dataset.error = 0
+        }
+        btn.addEventListener('mouseup', e => {
+            e.preventDefault()
+            exec()
+        })
+
+        input.addEventListener('keyup', e => {
+            if (e.keyCode === 13) {
+                exec()
+                e.preventDefault()
+                input.textContent = input.textContent.trim('\n')
+                // input.dispatchEvent(new KeyboardEvent('keydown',{'key':'Backspace'}))
+            }
+        })
+
+    </script>
+</body>
+
+</html>
